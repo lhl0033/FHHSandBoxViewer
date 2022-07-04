@@ -3,7 +3,7 @@
 //  StudentLive
 //
 //  Created by hefanghui on 2018/4/25.
-//  Copyright © 2018年 hqyxedu. All rights reserved.
+//  Copyright © 2018 hqyxedu. All rights reserved.
 //
 
 import UIKit

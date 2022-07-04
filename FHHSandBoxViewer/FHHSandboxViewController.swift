@@ -3,14 +3,14 @@
 //  StudentLive
 //
 //  Created by hefanghui on 2018/4/25.
-//  Copyright © 2018年 hqyxedu. All rights reserved.
+//  Copyright © 2018 hqyxedu. All rights reserved.
 //
 
 import UIKit
 
 @objc public class FHHSandboxViewController: UIViewController, FHHSandboxAccessoryViewDelegate {
     
-    // MARK:Properties
+    // MARK: Properties
     var path: String
     var navTitle: String
     var isSelected: Bool = false
@@ -22,15 +22,11 @@ import UIKit
     }
     
     @objc public class var defaultPath: String {
-        var path = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.libraryDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)[0]
-        path = path.replacingOccurrences(of: "/Library", with: "")
-        if isSimulator() {
-            path = path.replacingOccurrences(of: "/Developer/CoreSimulator/", with: "/Library/Developer/CoreSimulator/")
-        }
-        return path
+        let path = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.libraryDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)[0] as NSString
+        return path.deletingLastPathComponent
     }
     
-    // MARK:Init
+    // MARK: Init
     @objc public init(navTitle: String, path: String) {
         self.navTitle = navTitle
         self.path = path
@@ -41,7 +37,7 @@ import UIKit
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK:LifeCircle
+    // MARK: LifeCircle
   override public func viewDidLoad() {
         super.viewDidLoad()
         
@@ -56,11 +52,11 @@ import UIKit
         FHHLog("deinit")
     }
     
-    // MARK:SandboxAccessoryViewDelegate
+    // MARK: SandboxAccessoryViewDelegate
     func SandboxAccessory(_: FHHSandboxAccessoryView, didClickSharedButton: UIButton) {
         let shareURLArray = self.getSelectedURL()
         let vc = UIActivityViewController.init(activityItems: shareURLArray, applicationActivities: nil)
-        let completionWithItemsHandler = { (type: UIActivity.ActivityType?, isSucceed: Bool?,array: Array<Any>?, error: Error?)  in
+        let completionWithItemsHandler = { (_: UIActivity.ActivityType?, _: Bool?, _: [Any]?, error: Error?)  in
             FHHLog("error:\(String(describing: error?.localizedDescription))")
             self.resetToUnSelectState()
             self.tableView.refresh(viewModelArray: self.viewModelArray)
@@ -69,7 +65,7 @@ import UIKit
         self.present(vc, animated: true, completion:nil)
     }
     
-    // MARK:Functions
+    // MARK: Functions
     private func initNavigationBar() {
         self.fhh_setNavigationBar(title: navTitle, navLeftButtonIcon: "", navRightButtonTitle: "selcet")
         self.fhh_navRightButton?.addTarget(self, action: #selector(navRightButtonDidClick), for: .touchUpInside)
@@ -98,10 +94,8 @@ import UIKit
     
     private func getSelectedURL() -> [URL] {
         var urlArray = [URL]()
-        for viewModel in viewModelArray {
-            if viewModel.isSelected {
-                urlArray.append(viewModel.pathURL!)
-            }
+        for viewModel in viewModelArray where viewModel.isSelected {
+            urlArray.append(viewModel.pathURL!)
         }
         return urlArray
     }
@@ -142,7 +136,7 @@ import UIKit
         return (subPath as NSString).replacingOccurrences(of: "\(path)/", with: "")
     }
     
-    // MARK:HandleEvents
+    // MARK: HandleEvents
     @objc func returnToLastVC() {
         self.navigationController?.popViewController(animated: true)
     }
@@ -157,7 +151,7 @@ import UIKit
         self.tableView.reloadData()
     }
     
-    // MARK:HandleViews
+    // MARK: HandleViews
     private func configSubViews() {
         self.view.addSubview(tableView)
         
@@ -175,11 +169,9 @@ import UIKit
     }
     
     func refreshAccessoryView() {
-        for viewModel in viewModelArray {
-            if viewModel.isSelected {
-                self.accessoryView.refreshShareButton(enable: true)
-                return
-            }
+        for viewModel in viewModelArray where viewModel.isSelected {
+            self.accessoryView.refreshShareButton(enable: true)
+            return
         }
         self.accessoryView.refreshShareButton(enable: false)
     }
@@ -190,15 +182,18 @@ import UIKit
         }
     }
     
-    // MARK:LazyLoads
+    // MARK: LazyLoads
     private lazy var tableView: FHHSandboxTableView = {
-        let frame = CGRect.init(x: 0, y: UIDevice.fhh_kNavigationBarHeight(), width: UIDevice.fhh_kScreenW(), height: UIDevice.fhh_kScreenH() - UIDevice.fhh_kNavigationBarHeight() - self.accessoryView.fhh_height)
+        let frame = CGRect.init(x: 0,
+                                y: UIDevice.fhh_kNavigationBarHeight(),
+                                width: UIDevice.fhh_kScreenW(),
+                                height: UIDevice.fhh_kScreenH() - UIDevice.fhh_kNavigationBarHeight() - accessoryView.fhh_height)
         let tableView = FHHSandboxTableView.init(frame: frame, style: UITableView.Style.grouped)
         return tableView
     }()
     
     private lazy var accessoryView: FHHSandboxAccessoryView = {
-        let frame = CGRect.init(x: 0, y: 0, width: UIDevice.fhh_kScreenW(), height: 50)
+        let frame = CGRect.init(x: 0, y: 0, width: UIDevice.fhh_kScreenW(), height: 64)
         let view = FHHSandboxAccessoryView.init(frame: frame)
         view.refreshShareButton(enable: false)
         view.delegate = self

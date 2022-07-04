@@ -3,14 +3,14 @@
 //  StudentLive
 //
 //  Created by hefanghui on 2018/4/25.
-//  Copyright © 2018年 hqyxedu. All rights reserved.
+//  Copyright © 2018 hqyxedu. All rights reserved.
 //
 
 import UIKit
 
 @objc class FHHSandboxTableViewCell: UITableViewCell {
     
-    // MARK:Properties
+    // MARK: Properties
     var viewModel: FHHSandboxViewModel?
     class var kIdentify: String {
         return "kSandboxTableViewCell"
@@ -25,7 +25,7 @@ import UIKit
         FHHLog("deinit")
     }
     
-    // MARK:HandleViews
+    // MARK: HandleViews
     func refresh(viewModel: FHHSandboxViewModel) {
         self.viewModel = viewModel
         self.configselectBoxView()
@@ -54,7 +54,7 @@ import UIKit
         }
     }
 
-    // MARK:Properties
+    // MARK: Properties
     private lazy var selectBoxView: FHHSelectBoxView = {
         let frame = CGRect.init(x: 0, y: 0, width: 20, height: 20)
         let view = FHHSelectBoxView.init(frame: frame)
@@ -72,7 +72,7 @@ import UIKit
 
 class FHHSelectBoxView: UIView {
     
-    // MARK:Init
+    // MARK: Init
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.layer.cornerRadius = self.frame.size.width * 0.5
@@ -84,7 +84,7 @@ class FHHSelectBoxView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK:HandleViews
+    // MARK: HandleViews
     func refresh(isSelect: Bool) {
         if isSelect {
             self.refresh2SelectedState()

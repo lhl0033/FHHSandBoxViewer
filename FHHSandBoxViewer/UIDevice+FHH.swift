@@ -3,26 +3,23 @@
 //  USchool
 //
 //  Created by hefanghui on 2017/9/15.
-//  Copyright © 2017年 topglobaledu. All rights reserved.
+//  Copyright © 2017 topglobaledu. All rights reserved.
 //
-//  Main function:设备类型属性拓展类
-//
-//  Other specifications:设备类型、系统版本号
 //
 //  ************************************************************************
 import UIKit
 
 @objc extension UIDevice {
     
-    @objc public class func fhh_kScreenW() -> CGFloat {
+    public class func fhh_kScreenW() -> CGFloat {
         return UIScreen.main.bounds.size.width
     }
     
-    @objc public class func fhh_kScreenH() -> CGFloat {
+    public class func fhh_kScreenH() -> CGFloat {
         return UIScreen.main.bounds.size.height
     }
     
-    @objc public class func fhh_kNavigationBarHeight() -> CGFloat {
+    public class func fhh_kNavigationBarHeight() -> CGFloat {
         if self.fhh_isiPhoneX() {
             return 101.0
         } else {
@@ -30,11 +27,14 @@ import UIKit
         }
     }
     
-    @objc public class func fhh_isiPhoneX() -> Bool {
-        if (UIScreen.main.currentMode?.size.equalTo(CGSize.init(width: 1125, height: 2436)))! {
-            return true
-        }
-        return false
+    /// Returns `true` if the device has a notch
+    var hasNotch: Bool {
+        guard let window = UIApplication.shared.windows.filter({$0.isKeyWindow}).first else { return false }
+        return window.safeAreaInsets.top >= 44
+    }
+    
+    public class func fhh_isiPhoneX() -> Bool {
+        UIDevice.current.hasNotch
     }
     
     public class func fhh_isiPhone6PlusBigMode() -> Bool {

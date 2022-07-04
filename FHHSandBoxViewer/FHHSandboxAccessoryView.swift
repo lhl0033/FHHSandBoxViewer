@@ -3,7 +3,7 @@
 //  StudentLive
 //
 //  Created by hefanghui on 2018/4/26.
-//  Copyright © 2018年 hqyxedu. All rights reserved.
+//  Copyright © 2018 hqyxedu. All rights reserved.
 //
 
 import UIKit
@@ -14,10 +14,10 @@ import UIKit
 
 @objc class FHHSandboxAccessoryView: UIView {
 
-    // MARK:Properties
+    // MARK: Properties
     weak var delegate: FHHSandboxAccessoryViewDelegate?
 
-    // MARK:Init
+    // MARK: Init
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.configOwoProperties()
@@ -32,7 +32,7 @@ import UIKit
         FHHLog("deinit")
     }
     
-    // MARK:Functions
+    // MARK: Functions
     private func configOwoProperties() {
         self.backgroundColor = fhh_rgb(248, 248, 248)
         self.layer.shadowColor = fhh_rgb(204, 204, 204).cgColor
@@ -40,7 +40,7 @@ import UIKit
         self.layer.shadowRadius = 1.5
     }
     
-    // MARK:HandleViews
+    // MARK: HandleViews
     func refreshShareButton(enable: Bool) {
         shareButton.isEnabled = enable
     }
@@ -53,14 +53,14 @@ import UIKit
         shareButton.fhh_centerY = self.fhh_height * 0.5
     }
     
-    // MARK:HandleEvents
+    // MARK: HandleEvents
     @objc private func shareButtonDidClick() {
         if delegate != nil {
             delegate?.SandboxAccessory(self, didClickSharedButton: shareButton)
         }
     }
     
-    // MARK:LazyLoads
+    // MARK: LazyLoads
     private lazy var shareButton: UIButton = {
         let button = UIButton.init()
         button.addTarget(self, action: #selector(shareButtonDidClick), for: .touchUpInside)

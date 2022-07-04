@@ -3,7 +3,7 @@
 //  FHHSandBoxManager
 //
 //  Created by hefanghui on 2018/4/27.
-//  Copyright © 2018年 hefanghui. All rights reserved.
+//  Copyright © 2018 hefanghui. All rights reserved.
 //
 
 import UIKit
@@ -30,5 +30,4 @@ func isSimulator() -> Bool {
     isSim = true
     #endif
     return isSim
-}  
-
+}

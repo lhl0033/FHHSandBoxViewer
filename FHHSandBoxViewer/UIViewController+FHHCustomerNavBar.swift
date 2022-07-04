@@ -3,7 +3,7 @@
 //  FHHSandBoxManager
 //
 //  Created by hefanghui on 2018/4/26.
-//  Copyright © 2018年 hefanghui. All rights reserved.
+//  Copyright © 2018 hefanghui. All rights reserved.
 //
 
 import UIKit
@@ -22,23 +22,23 @@ private let kMargin: CGFloat = 15.0
 
 @objc public extension UIViewController {
     
-    @objc public func fhh_setNavigationBar(title: String?) {
+    func fhh_setNavigationBar(title: String?) {
         self.fhh_setNavigationBar(title: title, navLeftButtonIcon: nil, navRightButtonIcon: nil, navRightButtonTitle: nil)
     }
     
-    @objc public func fhh_setNavigationBar(title: String?, navLeftButtonIcon: String?) {
+    func fhh_setNavigationBar(title: String?, navLeftButtonIcon: String?) {
         self.fhh_setNavigationBar(title: title, navLeftButtonIcon: navLeftButtonIcon, navRightButtonIcon: nil, navRightButtonTitle: nil)
     }
     
-    @objc public func fhh_setNavigationBar(title: String?, navLeftButtonIcon: String?, navRightButtonTitle: String?) {
+    func fhh_setNavigationBar(title: String?, navLeftButtonIcon: String?, navRightButtonTitle: String?) {
         self.fhh_setNavigationBar(title: title, navLeftButtonIcon: navLeftButtonIcon, navRightButtonIcon: nil, navRightButtonTitle: navRightButtonTitle)
     }
     
-    @objc public func fhh_setNavigationBar(title: String?, navLeftButtonIcon: String?, navRightButtonIcon: String?) {
+    func fhh_setNavigationBar(title: String?, navLeftButtonIcon: String?, navRightButtonIcon: String?) {
         self.fhh_setNavigationBar(title: title, navLeftButtonIcon: navLeftButtonIcon, navRightButtonIcon: navRightButtonIcon, navRightButtonTitle: nil)
     }
     
-    @objc public func fhh_setNavigationBar(title: String?, navLeftButtonIcon: String?, navRightButtonIcon: String?, navRightButtonTitle: String?) {
+    func fhh_setNavigationBar(title: String?, navLeftButtonIcon: String?, navRightButtonIcon: String?, navRightButtonTitle: String?) {
         self.fhh_configNavigationBar()
         self.fhh_configNavLeftButton(navLeftButtonIcon: navLeftButtonIcon)
         self.fhh_configNavRightButton(navRightButtonTitle: navRightButtonTitle, navRightButtonIcon: navRightButtonIcon)
@@ -46,8 +46,8 @@ private let kMargin: CGFloat = 15.0
         self.fhh_configBottomSepImageView()
     }
     
-    // MARK:HandleViews
-    public func fhh_configNavigationBar() {
+    // MARK: HandleViews
+    func fhh_configNavigationBar() {
         if fhh_navigationBar != nil {
             fhh_navigationBar?.removeFromSuperview()
         }
@@ -57,7 +57,7 @@ private let kMargin: CGFloat = 15.0
         fhh_navigationBar?.backgroundColor = UIColor.init(red: 250 / 255.0, green: 250 / 255.0, blue: 250 / 255.0, alpha: 1.0)
     }
     
-    public func fhh_configNavLeftButton(navLeftButtonIcon: String?) {
+    func fhh_configNavLeftButton(navLeftButtonIcon: String?) {
         self.fhh_initLeftButton(navLeftButtonIcon: navLeftButtonIcon)
         self.fhh_configLeftButtonEdgeInsets(navLeftButtonIcon: navLeftButtonIcon)
     }
@@ -125,7 +125,7 @@ private let kMargin: CGFloat = 15.0
         fhh_navRightButton?.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: titleLeftInset)
     }
     
-    @objc func fhh_reConfigNavRightButton() {
+    func fhh_reConfigNavRightButton() {
         if fhh_navRightButton?.currentBackgroundImage == nil {
             fhh_navRightButton?.sizeToFit()
             fhh_navRightButton?.fhh_width = (fhh_navRightButton?.fhh_width)! + kMargin
@@ -156,7 +156,7 @@ private let kMargin: CGFloat = 15.0
         fhh_navMiddleButton?.setTitleColor(fhh_rgb(55, 62, 68), for: .normal)
     }
     
-    @objc func fhh_reConfigNavMiddleButton() {
+    func fhh_reConfigNavMiddleButton() {
         fhh_navMiddleButton?.sizeToFit()
         var maxWidth = (fhh_navigationBar?.fhh_width)! - 30
         if fhh_navLeftButton != nil && fhh_navRightButton != nil {
@@ -180,10 +180,14 @@ private let kMargin: CGFloat = 15.0
         bottomSepImageView.backgroundColor = UIColor.init(red: 220 / 255.0, green: 220 / 255.0, blue: 220 / 255.0, alpha: 1.0)
     }
     
-    // MARK:HandleEvents
-    @objc func fhh_clickLeftNavButton() {
+    // MARK: HandleEvents
+    func fhh_clickLeftNavButton() {
         if self.fhh_enterType == .push {
-            self.navigationController?.popViewController(animated: true)
+            if navigationController?.viewControllers.count == 1 {
+                self.dismiss(animated: true, completion: nil)
+            } else {
+                self.navigationController?.popViewController(animated: true)
+            }
         } else if self.navigationController != nil {
             self.navigationController?.dismiss(animated: true, completion: nil)
         } else {
@@ -191,12 +195,12 @@ private let kMargin: CGFloat = 15.0
         }
     }
     
-    @objc func fhh_removeNavLeftButtonDefaultEvent() {
+    func fhh_removeNavLeftButtonDefaultEvent() {
         fhh_navLeftButton?.removeTarget(self, action: #selector(fhh_clickLeftNavButton), for: .touchUpInside)
     }
     
-    // MARK:Properties
-    public var fhh_navigationBar: UIView? {
+    // MARK: Properties
+    var fhh_navigationBar: UIView? {
         get {
             return (objc_getAssociatedObject(self, &kNavigationBarKey) as? UIView)
         }
@@ -205,7 +209,7 @@ private let kMargin: CGFloat = 15.0
         }
     }
     
-    public var fhh_navMiddleButton: UIButton? {
+    var fhh_navMiddleButton: UIButton? {
         get {
             return (objc_getAssociatedObject(self, &kNavMiddleButtonKey) as? UIButton)
         }
@@ -214,7 +218,7 @@ private let kMargin: CGFloat = 15.0
         }
     }
     
-    public var fhh_navLeftButton: UIButton? {
+    var fhh_navLeftButton: UIButton? {
         get {
             return (objc_getAssociatedObject(self, &kNavLeftButtonKey) as? UIButton)
         }
@@ -223,7 +227,7 @@ private let kMargin: CGFloat = 15.0
         }
     }
     
-    public var fhh_navRightButton: UIButton? {
+    var fhh_navRightButton: UIButton? {
         get {
             return (objc_getAssociatedObject(self, &kNavRightButtonKey) as? UIButton)
         }
@@ -232,11 +236,11 @@ private let kMargin: CGFloat = 15.0
         }
     }
     
-    public var fhh_enterType: FHHEnterType {
+    var fhh_enterType: FHHEnterType {
         get {
             let enterTypeRawValue = objc_getAssociatedObject(self, &kEnterType)
             if enterTypeRawValue != nil {
-                return FHHEnterType.init(rawValue: enterTypeRawValue as! NSInteger)!
+                return FHHEnterType.init(rawValue: enterTypeRawValue as? NSInteger ?? 0)!
             }
             return .push
         }

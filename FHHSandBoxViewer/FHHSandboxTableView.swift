@@ -3,7 +3,7 @@
 //  StudentLive
 //
 //  Created by hefanghui on 2018/4/25.
-//  Copyright © 2018年 hqyxedu. All rights reserved.
+//  Copyright © 2018 hqyxedu. All rights reserved.
 //
 
 import UIKit
@@ -12,7 +12,7 @@ import UIKit
     
     var sandboxViewModelArray: [FHHSandboxViewModel] = [FHHSandboxViewModel]()
 
-    // MARK:Init
+    // MARK: Init
     override init(frame: CGRect, style: UITableView.Style) {
         super.init(frame: frame, style: style)
         self.configOwnProperties()
@@ -26,32 +26,34 @@ import UIKit
         FHHLog("deinit")
     }
     
-    // MARK:Functions
+    // MARK: Functions
     private func configOwnProperties() {
         self.register(FHHSandboxTableViewCell.self, forCellReuseIdentifier: FHHSandboxTableViewCell.kIdentify)
         self.dataSource = self
         self.delegate = self
     }
     
-    // MARK:HandleViews
+    // MARK: HandleViews
     func refresh(viewModelArray: [FHHSandboxViewModel]) {
         self.sandboxViewModelArray = viewModelArray
         self.reloadData()
     }
     
-    // MARK:UITableViewDataSource
+    // MARK: UITableViewDataSource
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return sandboxViewModelArray.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let viewModel = sandboxViewModelArray[indexPath.row]
-        let cell = tableView.dequeueReusableCell(withIdentifier: FHHSandboxTableViewCell.kIdentify, for: indexPath) as! FHHSandboxTableViewCell
-        cell.refresh(viewModel: viewModel)
-        return cell
+        if let cell = tableView.dequeueReusableCell(withIdentifier: FHHSandboxTableViewCell.kIdentify, for: indexPath) as? FHHSandboxTableViewCell {
+            cell.refresh(viewModel: viewModel)
+            return cell
+        }
+        return UITableViewCell()
     }
     
-    // MARK:UITableViewDelegate
+    // MARK: UITableViewDelegate
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let viewModel = sandboxViewModelArray[indexPath.row]
         if viewModel.didSelectBlock != nil {
