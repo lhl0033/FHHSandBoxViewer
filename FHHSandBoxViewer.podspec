@@ -8,17 +8,18 @@
 
 Pod::Spec.new do |s|
 
-  s.name         = "FHHSandBoxViewer"
-  s.version      = "1.0.4"
-  s.summary      = "沙盒查看器，可以浏览App的沙盒文件和使用AirDrop进行分享"
+  s.name         = "FHHSandBoxViewerUpdated"
+  s.version      = "1.0.5"
+  s.summary      = "Sandbox viewer browser"
   s.homepage     = "https://github.com/002and001/FHHSandBoxViewer"
   s.license      = "MIT"
   s.author       = { "002and001" => "xxewz1@163.com" }
-  s.source       = { :git => "https://github.com/002and001/FHHSandBoxViewer.git", :tag => "#{s.version}" }
+  s.source       = { :git => "https://github.com/lhl0033/FHHSandBoxViewer.git", :tag => "#{s.version}" }
   s.module_name = 'FHHSandBoxViewer'
-  s.ios.deployment_target = '8.0'
+  s.ios.deployment_target = '13.0'
   s.frameworks   = "Foundation", "UIKit"
   s.source_files  = "FHHSandBoxViewer/**/*.swift"
   s.requires_arc = true
+  s.swift_version = "5.3"
 
 end
